@@ -9,7 +9,7 @@ describe ConnectFour do
     subject(:connect_four) { described_class.new(player1, player2) }
 
     context 'when the current player is player 1' do
-      it 'switches current player to player 2' do
+      it 'switches to player 2' do
         connect_four.send(:switch_player)
         current_player = connect_four.instance_variable_get(:@current_player)
         expect(current_player).to eq(player2)

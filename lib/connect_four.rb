@@ -6,6 +6,13 @@ class ConnectFour
     @players = [player1, player2]
     @current_player = player1
   end
+
+  private
+
+  def switch_player
+    @current_player =
+      @current_player == @players[0] ? @players[1] : @players[0]
+  end
 end
 
 # Models player attributes for Connect Four game
