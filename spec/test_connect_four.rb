@@ -15,5 +15,18 @@ describe ConnectFour do
         expect(current_player).to eq(player2)
       end
     end
+
+    context 'when the current player is player 2' do
+      before do
+        players = connect_four.instance_variable_get(:@players)
+        connect_four.instance_variable_set(:@current_player, players[1])
+      end
+
+      it 'switches current player to player 1' do
+        connect_four.send(:switch_player)
+        current_player = connect_four.instance_variable_get(:@current_player)
+        expect(current_player).to eq(player1)
+      end
+    end
   end
 end
