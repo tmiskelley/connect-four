@@ -3,11 +3,17 @@
 # Represents a game of connect four
 class ConnectFour
   def initialize(player1, player2)
+    @board = Array.new(42)
     @players = [player1, player2]
     @current_player = player1
   end
 
   private
+
+  def select_spot
+    choice = gets.chomp.to_i
+    @board[choice] = @current_player.marker
+  end
 
   def switch_player
     @current_player =
