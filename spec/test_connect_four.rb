@@ -33,6 +33,18 @@ describe ConnectFour do
         expect(board[3]).to eq(player2.marker)
       end
     end
+
+    context 'when player enters an invalid input' do
+      before do
+        allow(connect_four).to receive(:gets).and_return('a', '4')
+      end
+
+      it 'returns error message once' do
+        error_message = 'Invalid input, please enter a valid number'
+        expect(connect_four).to receive(:puts).with(error_message).once
+        connect_four.send(:select_spot)
+      end
+    end
   end
 
   describe '#switch_player' do
