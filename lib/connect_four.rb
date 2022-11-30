@@ -11,13 +11,24 @@ class ConnectFour
   private
 
   def select_spot
-    choice = gets.chomp.to_i
+    choice = validate_entry
     @board[choice] = @current_player.marker
   end
 
   def switch_player
     @current_player =
       @current_player == @players[0] ? @players[1] : @players[0]
+  end
+
+  def validate_entry
+    begin
+      choice = Integer(gets.chomp)
+    rescue ArgumentError
+      puts 'Invalid input, please enter a valid number'
+      validate_entry
+    else
+      choice
+    end
   end
 end
 
