@@ -24,11 +24,26 @@ class ConnectFour
     begin
       choice = Integer(gets.chomp)
     rescue ArgumentError
-      puts 'Invalid input, please enter a valid number'
+      invalid_input
+    else
+      validate_choice(choice)
+    end
+  end
+
+  def validate_choice(choice)
+    if !choice.between?(1, 42)
+      invalid_input
+    elsif !@board[choice].nil?
+      puts 'This spot has already been taken! Please select a different spot'
       validate_entry
     else
       choice
     end
+  end
+
+  def invalid_input
+    puts 'Invalid input, please enter a valid number'
+    validate_entry
   end
 end
 
