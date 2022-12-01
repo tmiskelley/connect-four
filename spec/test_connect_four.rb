@@ -39,8 +39,35 @@ describe ConnectFour do
         allow(connect_four).to receive(:gets).and_return('a', '4')
       end
 
-      it 'returns error message once' do
+      it 'returns error message' do
         error_message = 'Invalid input, please enter a valid number'
+        expect(connect_four).to receive(:puts).with(error_message).once
+        connect_four.send(:select_spot)
+      end
+    end
+
+    context 'when player enters a number outside of board range' do
+      before do
+        allow(connect_four).to receive(:gets).and_return('-10', '0', '4')
+      end
+
+      it 'returns error message' do
+        error_message = 'Invalid input, please enter a valid number'
+        expect(connect_four).to receive(:puts).with(error_message).twice
+        connect_four.send(:select_spot)
+      end
+    end
+
+    context 'when player selects a spot that has already been taken' do
+      before do
+        filled_array = Array.new(42)
+        filled_array[4] = 'X'
+        connect_four.instance_variable_set(:@board, filled_array)
+        allow(connect_four).to receive(:gets).and_return('4', '5')
+      end
+
+      it 'returns error message' do
+        error_message = 'This spot has already been taken! Please select a different spot'
         expect(connect_four).to receive(:puts).with(error_message).once
         connect_four.send(:select_spot)
       end
