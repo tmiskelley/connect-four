@@ -10,6 +10,14 @@ class ConnectFour
 
   private
 
+  def display_board
+    @board.each_with_index do |e, i|
+      print "|\n" if (i % 7).zero? && !i.zero?
+      print e.nil? ? '|   ' : "| #{e} "
+    end
+    print "|\n"
+  end
+
   def select_spot
     choice = validate_entry
     @board[choice] = @current_player.marker
@@ -31,7 +39,7 @@ class ConnectFour
   end
 
   def validate_choice(choice)
-    if !choice.between?(1, 42)
+    if !choice.between?(0, 41)
       invalid_input
     elsif !@board[choice].nil?
       puts 'This spot has already been taken! Please select a different spot'
