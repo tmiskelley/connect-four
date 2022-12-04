@@ -48,7 +48,7 @@ describe ConnectFour do
 
     context 'when player enters a number outside of board range' do
       before do
-        allow(connect_four).to receive(:gets).and_return('-10', '0', '4')
+        allow(connect_four).to receive(:gets).and_return('-10', '100', '4')
       end
 
       it 'returns error message' do
