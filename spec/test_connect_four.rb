@@ -3,34 +3,49 @@
 require './lib/connect_four'
 
 describe ConnectFour do
-  describe '#select_spot' do
+  describe '#select_row' do
     let(:player1) { instance_double(Player, name: 'player1', marker: 'X') }
     let(:player2) { instance_double(Player, name: 'player2', marker: 'O') }
     subject(:connect_four) { described_class.new(player1, player2) }
 
-    context 'when player 1 selects a spot' do
+    context 'when player 1 selects a row' do
       before do
         allow(connect_four).to receive(:gets).and_return('3') # player input
       end
 
-      it "updates the spot to player 1's marker" do
-        connect_four.send(:select_spot)
+      it "updates the bottom most spot to player 1's marker" do
+        connect_four.send(:select_row)
         board = connect_four.instance_variable_get(:@board)
-        expect(board[3]).to eq(player1.marker)
+        expect(board[38]).to eq(player1.marker)
       end
     end
 
-    context 'when player 2 selects a spot' do
+    context 'when player 2 selects a row' do
       before do
         players = connect_four.instance_variable_get(:@players)
         connect_four.instance_variable_set(:@current_player, players[1])
         allow(connect_four).to receive(:gets).and_return('3') # player input
       end
 
-      it "updates the spot to player 2's marker" do
-        connect_four.send(:select_spot)
+      it "updates the bottom most spot to player 2's marker" do
+        connect_four.send(:select_row)
         board = connect_four.instance_variable_get(:@board)
-        expect(board[3]).to eq(player2.marker)
+        expect(board[38]).to eq(player2.marker)
+      end
+    end
+
+    context 'when player selects a row that has markers in it' do
+      before do
+        array = Array.new(42)
+        array.map!.with_index { |_e, i| 'X' unless !(i % 7).zero? || i.zero? }
+        connect_four.instance_variable_set(:@board, array)
+        allow(connect_four).to receive(:gets).and_return('0')
+      end
+
+      it "updates the nearest bottom spot to player's marker" do
+        connect_four.send(:select_row)
+        board = connect_four.instance_variable_get(:@board)
+        expect(board[0]).to eq(player1.marker)
       end
     end
 
@@ -42,19 +57,19 @@ describe ConnectFour do
       it 'returns error message' do
         error_message = 'Invalid input, please enter a valid number'
         expect(connect_four).to receive(:puts).with(error_message).once
-        connect_four.send(:select_spot)
+        connect_four.send(:select_row)
       end
     end
 
     context 'when player enters a number outside of board range' do
       before do
-        allow(connect_four).to receive(:gets).and_return('-10', '100', '4')
+        allow(connect_four).to receive(:gets).and_return('-10', '10', '4')
       end
 
       it 'returns error message' do
         error_message = 'Invalid input, please enter a valid number'
         expect(connect_four).to receive(:puts).with(error_message).twice
-        connect_four.send(:select_spot)
+        connect_four.send(:select_row)
       end
     end
 
@@ -67,9 +82,9 @@ describe ConnectFour do
       end
 
       it 'returns error message' do
-        error_message = 'This spot has already been taken! Please select a different spot'
+        error_message = 'This row is already full! Please select a different row'
         expect(connect_four).to receive(:puts).with(error_message).once
-        connect_four.send(:select_spot)
+        connect_four.send(:select_row)
       end
     end
   end

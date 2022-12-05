@@ -20,7 +20,7 @@ class ConnectFour
 
   def select_row
     choice = validate_entry
-    choice += 7 while @board[choice].nil? && (choice < 41)
+    choice += 7 while @board[choice].nil? && (choice < 42)
     choice -= 7
     @board[choice] = @current_player.marker
   end
@@ -44,7 +44,7 @@ class ConnectFour
     if !choice.between?(0, 6)
       invalid_input
     elsif !@board[choice].nil?
-      puts 'This spot has already been taken! Please select a different spot'
+      puts 'This row is already full! Please select a different row'
       validate_entry
     else
       choice
