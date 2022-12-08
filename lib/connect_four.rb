@@ -30,6 +30,7 @@ class ConnectFour
       @current_player == @players[0] ? @players[1] : @players[0]
   end
 
+  # verifies players choice is a number
   def validate_entry
     begin
       choice = Integer(gets.chomp)
@@ -40,6 +41,7 @@ class ConnectFour
     end
   end
 
+  # verifies players choice is a vaild row with an open spot
   def validate_choice(choice)
     if !choice.between?(0, 6)
       invalid_input
