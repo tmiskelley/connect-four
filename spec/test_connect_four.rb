@@ -89,6 +89,31 @@ describe ConnectFour do
     end
   end
 
+  describe '#board_full?' do
+    let(:player1) { double('player1') }
+    let(:player2) { double('player2') }
+    subject(:connect_four) { described_class.new(player1, player2) }
+
+    context 'when board has available spaces' do
+      it 'returns false' do
+        result = connect_four.send(:board_full?)
+        expect(result).to be false
+      end
+    end
+
+    context 'when the board is full' do
+      before do
+        full_array = Array.new(42).map.with_index { |_e, i| i.even? ? 'X' : 'O' }
+        connect_four.instance_variable_set(:@board, full_array)
+      end
+
+      it 'returns true' do
+        result = connect_four.send(:board_full?)
+        expect(result).to be true
+      end
+    end
+  end
+
   describe '#switch_player' do
     let(:player1) { double('player1') }
     let(:player2) { double('player2') }
