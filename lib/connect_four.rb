@@ -25,6 +25,10 @@ class ConnectFour
     @board[choice] = @current_player.marker
   end
 
+  def board_full?
+    @board.none?(nil)
+  end
+
   def switch_player
     @current_player =
       @current_player == @players[0] ? @players[1] : @players[0]
