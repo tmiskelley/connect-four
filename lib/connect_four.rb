@@ -25,6 +25,27 @@ class ConnectFour
     @board[choice] = @current_player.marker
   end
 
+  def player_win?
+    return true if horizontal_win?
+
+    false
+  end
+
+  def horizontal_win?
+    horizontal_lines = 0
+    min, max = 35, 41
+    until min.negative?
+      @board[min..max].each do |e|
+        e == @current_player.marker ? horizontal_lines += 1 : horizontal_lines = 0
+        return true if horizontal_lines >= 4
+      end
+      min -= 7
+      max -= 7
+    end
+
+    false
+  end
+
   def board_full?
     @board.none?(nil)
   end
