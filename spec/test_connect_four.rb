@@ -89,6 +89,51 @@ describe ConnectFour do
     end
   end
 
+  describe '#player_win?' do
+    let(:player1) { instance_double(Player, name: 'player1', marker: 'X') }
+    let(:player2) { instance_double(Player, name: 'player2', marker: 'O') }
+    subject(:connect_four) { described_class.new(player1, player2) }
+
+    context 'when current player has not made a line of four in a row' do
+      it 'returns false' do
+        result = connect_four.send(:horizontal_win?)
+        expect(result).to be false
+      end
+    end
+  end
+
+  describe '#horizontal_win?' do
+    let(:player1) { instance_double(Player, name: 'player1', marker: 'X') }
+    let(:player2) { instance_double(Player, name: 'player2', marker: 'O') }
+    subject(:connect_four) { described_class.new(player1, player2) }
+
+    context 'when a horizontal line of four in a row is on board' do
+      before do
+        win_array = Array.new(42)
+        win_array.map!.with_index { |_e, i| 'X' if i.between?(36, 39) }
+        connect_four.instance_variable_set(:@board, win_array)
+      end
+
+      it 'returns true' do
+        result = connect_four.send(:horizontal_win?)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a horizontal edge case is encountered' do
+      before do
+        win_array = Array.new(42)
+        win_array.map!.with_index { |_e, i| 'X' if i.between?(33, 36) }
+        connect_four.instance_variable_set(:@board, win_array)
+      end
+
+      it 'ignores and returns false' do
+        result = connect_four.send(:horizontal_win?)
+        expect(result).to be false
+      end
+    end
+  end
+
   describe '#board_full?' do
     let(:player1) { double('player1') }
     let(:player2) { double('player2') }
