@@ -46,6 +46,26 @@ class ConnectFour
     false
   end
 
+  def vertical_win?
+    check_board(35, 7)
+  end
+
+  def check_board(current_direction, offset)
+    in_a_row = 0
+    until current_direction > 41
+      current_spot = current_direction
+      until current_spot.negative?
+        @board[current_spot] == @current_player.marker ? in_a_row += 1 : in_a_row = 0
+        return true if in_a_row >= 4
+
+        current_spot -= offset # moves to the next spot
+      end
+      current_direction += 1 # moves to the next row in current direction
+    end
+
+    false
+  end
+
   def board_full?
     @board.none?(nil)
   end
