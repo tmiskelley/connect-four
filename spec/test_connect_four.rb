@@ -134,6 +134,25 @@ describe ConnectFour do
     end
   end
 
+  describe '#vertical_win?' do
+    let(:player1) { instance_double(Player, name: 'player1', marker: 'X') }
+    let(:player2) { instance_double(Player, name: 'player2', marker: 'O') }
+    subject(:connect_four) { described_class.new(player1, player2) }
+
+    context 'when a vertical line of four in a row is on board' do
+      before do
+        win_array = Array.new(42)
+        win_array.map!.with_index { |_e, i| 'X' if i.between?(17, 38) && (i % 7) == 3 }
+        connect_four.instance_variable_set(:@board, win_array)
+      end
+
+      it 'returns true' do
+        result = connect_four.send(:vertical_win?)
+        expect(result).to be true
+      end
+    end
+  end
+
   describe '#board_full?' do
     let(:player1) { double('player1') }
     let(:player2) { double('player2') }
