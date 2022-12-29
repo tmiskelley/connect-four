@@ -26,9 +26,7 @@ class ConnectFour
   end
 
   def player_win?
-    return true if horizontal_win?
-
-    false
+    horizontal_win? || vertical_win? || diagonal_win?
   end
 
   def horizontal_win?
@@ -41,6 +39,7 @@ class ConnectFour
       end
       min -= 7
       max -= 7
+      horizontal_lines = 0
     end
 
     false
@@ -48,6 +47,12 @@ class ConnectFour
 
   def vertical_win?
     check_board(35, 7)
+  end
+
+  # checks board for a left or right facing diagonal
+  def diagonal_win?
+    # left                # right
+    check_board(35, 6) || check_board(35, 8)
   end
 
   def check_board(current_direction, offset)
@@ -60,6 +65,7 @@ class ConnectFour
 
         current_spot -= offset # moves to the next spot
       end
+      in_a_row = 0
       current_direction += 1 # moves to the next row in current direction
     end
 
