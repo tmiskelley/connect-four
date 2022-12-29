@@ -153,6 +153,38 @@ describe ConnectFour do
     end
   end
 
+  describe 'diagonal_win?' do
+    let(:player1) { instance_double(Player, name: 'player1', marker: 'X') }
+    let(:player2) { instance_double(Player, name: 'player2', marker: 'O') }
+    subject(:connect_four) { described_class.new(player1, player2) }
+
+    context 'when a left facing diagonal line of four in a row is on board' do
+      before do
+        win_array = Array.new(42)
+        win_array.map!.with_index { |_e, i| 'X' if i.between?(14, 38) && (i % 8) == 6 }
+        connect_four.instance_variable_set(:@board, win_array)
+      end
+
+      it 'returns true' do
+        result = connect_four.send(:diagonal_win?)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a right facing diagonal line of four in a row is on board' do
+      before do
+        win_array = Array.new(42)
+        win_array.map!.with_index { |_e, i| 'X' if i.between?(19, 37) && (i % 6) == 1 }
+        connect_four.instance_variable_set(:@board, win_array)
+      end
+
+      it 'returns true' do
+        result = connect_four.send(:diagonal_win?)
+        expect(result).to be true
+      end
+    end
+  end
+
   describe '#board_full?' do
     let(:player1) { double('player1') }
     let(:player2) { double('player2') }
