@@ -16,6 +16,7 @@ class ConnectFour
       print e.nil? ? '|   ' : "| #{e} "
     end
     print "|\n"
+    print "  0   1   2   3   4   5   6  \n"
   end
 
   def select_row
