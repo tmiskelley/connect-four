@@ -8,9 +8,23 @@ class ConnectFour
     @current_player = player1
   end
 
+  def play
+    print "Lets play connect four!\n\n"
+    loop do
+      display_board
+      print "\n#{@current_player.name}: "
+      select_row
+      break if game_over?
+
+      switch_player
+    end
+  end
+
   private
 
   def display_board
+    puts 'Enter a row number to select a spot'
+
     @board.each_with_index do |e, i|
       print "|\n" if (i % 7).zero? && !i.zero?
       print e.nil? ? '|   ' : "| #{e} "
@@ -108,6 +122,20 @@ class ConnectFour
   def invalid_input
     puts 'Invalid input, please enter a valid number'
     validate_entry
+  end
+
+  def game_over?
+    game_over_message(true) if player_win?
+    game_over_message(false) if board_full?
+
+    player_win? || board_full?
+  end
+
+  def game_over_message(winner)
+    message = winner ? "#{@current_player.name} wins!" : 'Game tied.'
+
+    display_board
+    puts message
   end
 end
 
